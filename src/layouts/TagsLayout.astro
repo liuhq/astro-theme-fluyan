@@ -1,0 +1,18 @@
+---
+import TagsPanel from "#components/TagsPage/TagsPanel";
+---
+
+<style>
+    .main-container {
+        user-select: none;
+        -webkit-user-drag: none;
+        max-width: 720px;
+        min-width: 320px;
+        margin: auto;
+        padding-top: 20vh;
+    }
+</style>
+
+<div class="main-container">
+    <TagsPanel client:only="react" />
+</div>

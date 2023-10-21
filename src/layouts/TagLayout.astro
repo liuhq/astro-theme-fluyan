@@ -1,0 +1,71 @@
+---
+import TagTitle from "#components/TagsPage/TagTitle";
+import PostCard from "#components/PostCard";
+import type { Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import Pagination from "#components/Pagination";
+
+interface Props {
+    articles: CollectionEntry<"articles">[];
+    page: Page<CollectionEntry<"articles">>;
+    // @ts-ignore
+    pathname: string;
+    // @ts-ignore
+    tag: string;
+}
+
+const { articles, page, pathname, tag } = Astro.props;
+const hasPagination = page.lastPage;
+---
+<style>
+    .main-container {
+        user-select: none;
+        -webkit-user-drag: none;
+        max-width: 888px;
+        min-width: 888px;
+        margin: auto;
+    }
+
+    .main-info {
+        padding-top: 8rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .main-body {
+        display: flex;
+        align-content: space-between;
+        gap: 8px;
+    }
+
+    .main-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: auto;
+        min-width: 560px;
+    }
+
+    .main-pagination {
+        margin: 3rem 0;
+    }
+</style>
+
+<div class="main-container">
+    <div class="main-info">
+        <TagTitle tag={ tag } />
+    </div>
+    <div class="main-body">
+        <div class="main-list">
+            {
+                articles.map((v) =>
+                    <PostCard client:only="react" article={ v } />)
+            }
+            <div class="main-pagination">
+                {
+                    hasPagination > 1 &&
+                    <Pagination client:only="react" page={ page } pathname={ pathname } />
+                }
+            </div>
+        </div>
+    </div>
+</div>

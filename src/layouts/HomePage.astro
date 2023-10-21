@@ -1,0 +1,85 @@
+---
+import AuthorInfo from "#components/HomePage/AuthorInfo";
+import SiteDate from "#components/HomePage/SiteDate";
+import PostCard from "#components/PostCard";
+import Board from "#components/HomePage/Board";
+import Pagination from "#components/Pagination";
+import type { Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+    articles: CollectionEntry<"articles">[];
+    page: Page<CollectionEntry<"articles">>;
+    // @ts-ignore
+    pathname: string;
+}
+
+const { articles, page, pathname } = Astro.props;
+const hasPagination = page.lastPage;
+---
+<style>
+    .main-container {
+        user-select: none;
+        -webkit-user-drag: none;
+        max-width: 1280px;
+        min-width: 888px;
+        margin: auto;
+    }
+
+    .main-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 8rem;
+        padding-bottom: 1rem;
+    }
+
+    .main-body {
+        display: flex;
+        align-content: space-between;
+        gap: 8px;
+    }
+
+    .main-side {
+        position: sticky;
+        top: 64px;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    .main-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: auto;
+        min-width: 560px;
+    }
+
+    .main-pagination {
+        margin: 3rem 0;
+    }
+</style>
+
+<div class="main-container">
+    <div class="main-info">
+        <AuthorInfo client:only="react" />
+        <SiteDate client:only="react" />
+    </div>
+    <div class="main-body">
+        <div class="main-side">
+            <Board client:only="react" />
+        </div>
+        <div class="main-list">
+            {
+                articles.map((v) =>
+                    <PostCard client:only="react" article={ v } />)
+            }
+            <div class="main-pagination">
+                {
+                    hasPagination > 1 &&
+                    <Pagination client:only="react" page={ page } pathname={ pathname } />
+                }
+            </div>
+        </div>
+    </div>
+</div>

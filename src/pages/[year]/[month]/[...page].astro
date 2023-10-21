@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "#layouts/BaseLayout.astro";
+import HomePage from "#layouts/HomePage.astro";
+import type { InferGetStaticParamsType, Page, PaginateFunction } from "astro";
+import { getDateParams } from "#lib/params";
+import SiteConfig from "../../../SiteConfig";
+
+interface Props {
+    page: Page<CollectionEntry<"articles">>;
+}
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+
+export const getStaticPaths = ({ paginate }: { paginate: PaginateFunction }) => {
+    return getDateParams(paginate);
+};
+
+const { year, month } = Astro.params as Params;
+const { page } = Astro.props;
+const { navBar } = SiteConfig;
+// @ts-ignore
+const pathname = navBar.url.home;
+---
+
+<BaseLayout>
+    <HomePage articles={ page.data } page={ page } pathname={ `${ pathname }/${ year }/${ month }` } />
+</BaseLayout>

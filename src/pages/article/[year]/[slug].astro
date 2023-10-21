@@ -1,0 +1,21 @@
+---
+import { getArticleParams } from "#lib/params";
+import type { InferGetStaticPropsType } from "astro";
+import BaseLayout from "#layouts/BaseLayout.astro";
+import ArticlePage from "#layouts/ArticlePage.astro";
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+export const getStaticPaths = () => {
+    return getArticleParams();
+};
+
+const { article } = Astro.props as Props;
+const { Content } = await article.render();
+---
+
+<BaseLayout>
+    <ArticlePage article={ article }>
+        <Content />
+    </ArticlePage>
+</BaseLayout>

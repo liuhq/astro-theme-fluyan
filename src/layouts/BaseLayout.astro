@@ -1,0 +1,37 @@
+---
+import Footer from "#components/Footer";
+import Head from "#layouts/Head.astro";
+import NavBar from "#components/NavBar";
+import Provider from "#components/Provider";
+import UserConfig from "#/UserConfig";
+
+const { lang } = UserConfig;
+---
+
+<style>
+    .nav-bar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 998;
+    }
+
+    .footer-info {
+        width: 100%;
+    }
+</style>
+
+<html lang={ lang }>
+<Head />
+<body>
+<Provider client:only="react">
+    <div class="nav-bar">
+        <NavBar client:only="react" />
+    </div>
+    <slot />
+    <div class="footer-info">
+        <Footer client:only="react" />
+    </div>
+</Provider>
+</body>
+</html>

@@ -1,0 +1,16 @@
+---
+import UserConfig from "#/UserConfig";
+
+const { siteTitle } = UserConfig;
+---
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={ Astro.generator } />
+    {/* reset body style */ }
+    <style>body {margin: 0; background-color: hsl(0, 0%, 96%)} </style>
+    {/* WebStorm Bug: Can not have spaces within braces when in a line block with HTML tag */ }
+    <title>{/*@formatter:off*/siteTitle}</title>
+</head>

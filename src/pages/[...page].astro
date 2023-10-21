@@ -1,0 +1,26 @@
+---
+import BaseLayout from "#layouts/BaseLayout.astro";
+import HomePage from "#layouts/HomePage.astro";
+import { updateDateOrder } from "#lib/articleCollection";
+import type { Page, PaginateFunction } from "astro";
+import type { CollectionEntry } from "astro:content";
+import SiteConfig from "#/SiteConfig.ts";
+
+interface Props {
+    page: Page<CollectionEntry<"articles">>;
+}
+
+export const getStaticPaths = ({ paginate }: { paginate: PaginateFunction }) => {
+    // @ts-ignore
+    return paginate(updateDateOrder, { pageSize: SiteConfig.pageSize });
+};
+
+const { page } = Astro.props;
+const { navBar } = SiteConfig;
+// @ts-ignore
+const pathname = navBar.url.home;
+---
+
+<BaseLayout>
+    <HomePage articles={ page.data } page={ page } pathname={ pathname } />
+</BaseLayout>

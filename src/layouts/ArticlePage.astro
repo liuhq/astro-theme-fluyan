@@ -1,0 +1,39 @@
+---
+import ArticleCard from "#components/ArticlePage/ArticleCard";
+import PageTool from "#components/ArticlePage/PageTool";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+    article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+---
+<style>
+    .main-container {
+        user-select: none;
+        -webkit-user-drag: none;
+        max-width: 960px;
+        min-width: 888px;
+        margin: 6rem auto auto;
+    }
+
+    .main-body {
+        max-width: 960px;
+        margin: 1rem auto 0;
+    }
+
+    .main-pagination {
+        margin: 3rem 0;
+    }
+</style>
+
+<div class="main-container">
+    <PageTool client:only="react" />
+    <div class="main-body">
+        <ArticleCard client:only="react" article={ article }>
+            <slot />
+        </ArticleCard>
+        <div class="main-pagination"></div>
+    </div>
+</div>
